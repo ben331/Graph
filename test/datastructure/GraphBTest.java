@@ -3,7 +3,6 @@ package datastructure;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 import org.junit.jupiter.api.Test;
 
@@ -149,11 +148,17 @@ class GraphBTest {
 		
 		Double[] prevs = graph.dijkstra(4).get(1);
 		
-		Stack<Integer> route = graph.buildRoute(prevs, 5);
+		for(int i=0; i<prevs.length;i++) {
+			System.out.println(prevs[i]);
+		}
 		
-		assertEquals(4, route.pop());
-		assertEquals(3, route.pop());
-		assertEquals(5, route.pop());
+		ArrayList<Node<Integer, String>> route = graph.buildRoute(prevs, 5);
+		
+		assertEquals(3, route.size());
+		
+		assertEquals(4, route.get(0).getKey());
+		assertEquals(3, route.get(1).getKey());
+		assertEquals(5, route.get(2).getKey());
 	}
 	
 	@Test

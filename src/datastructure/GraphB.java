@@ -430,7 +430,7 @@ public class GraphB<K extends Comparable<K>,V> implements IGraph<K,V>{
 			}
 			
 			
-			//If the graph is npot directed - remove the pair edge 
+			//If the graph is not directed - remove the pair edge 
 			
 			if((type==GraphB.SIMPLE_GRAPH || type==GraphB.MULTIGRAPH) && indexAdyacent!=-1) {
 				vertex = nodes.get(indexAdyacent);
@@ -443,14 +443,23 @@ public class GraphB<K extends Comparable<K>,V> implements IGraph<K,V>{
 		}
 	}
 	
-	public Stack<K> buildRoute(Double[] prevs, K key){
-		Stack<K> route = new Stack<>();
+	public ArrayList<Node<K,V>> buildRoute(Double[] prevs, K key){
+		ArrayList<Node<K,V>> route = new ArrayList<>();
+		Stack<Node<K,V>> invRoute = new Stack<>();
 		
 		int pos = searchNode(key).getPos();
 		int prev = prevs[pos].intValue();
+		
 		while(prev!=-1) {
-			route.add(nodes.get(prev).getKey());
+			invRoute.add(nodes.get(prev));
+			prev = prevs[prev].intValue();
 		}
+		
+		while(!invRoute.isEmpty()) {
+			route.add(invRoute.pop());
+		}
+		
+		route.add(nodes.get(pos));
 		
 		return route;
 	}
