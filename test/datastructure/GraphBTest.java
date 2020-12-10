@@ -41,7 +41,7 @@ class GraphBTest {
 		graph.add(5, "Cinco");
 		graph.getNodes().get(0).addAdjacent(1, 1);
 		graph.getNodes().get(1).addAdjacent(0, 1);
-		graph.getNodes().get(1).addAdjacent(2, 3);
+		graph.getNodes().get(1).addAdjacent(2, 2);
 		graph.getNodes().get(2).addAdjacent(0, 2);
 		graph.getNodes().get(2).addAdjacent(3, 1);
 		graph.getNodes().get(3).addAdjacent(2, 1);
