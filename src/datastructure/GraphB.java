@@ -283,21 +283,16 @@ public class GraphB<K extends Comparable<K>,V> implements IGraph<K,V>{
 			while(!priorityQ.isEmpty()) {
 				int currentIndex = priorityQ.extractMax();
 				Node<K,V> currentNode = nodes.get(currentIndex);
-				System.out.print("Current Index: "+(currentIndex+1));
+
 				for(int i=0; i<currentNode.getAdjacents(); i++) {
-					System.out.println(" #"+(currentNode.getNeiborgIndex(i)+1));
-					System.out.println(currentNode.getNeiborgWeight(i)+" < " +weights[currentNode.getNeiborgIndex(i)].getWeight()+" ?");
+
 					if(!isVisited[currentNode.getNeiborgIndex(i)] && currentNode.getNeiborgWeight(i) < weights[currentNode.getNeiborgIndex(i)].getWeight()) {
 						weights[currentNode.getNeiborgIndex(i)].setWeight(currentNode.getNeiborgWeight(i));
 						prev[currentNode.getNeiborgIndex(i)] = currentIndex;
 						priorityQ.increaseKey(currentNode.getNeiborgIndex(i));
-						System.out.println("Sí.");
-						System.out.println("prev["+(currentNode.getNeiborgIndex(i)+1)+"] actualizado a "+(currentIndex+1)+"\n");
-					}else {
-						System.out.println("No.\n");
+						
 					}
 				}
-				System.out.println("\n\n");
 				isVisited[currentIndex]=true;
 			}
 			
@@ -468,7 +463,7 @@ public class GraphB<K extends Comparable<K>,V> implements IGraph<K,V>{
 		
 		for(int i=0; i<prev.length; i++) {
 			double weight=Double.MAX_VALUE;
-			System.out.println("prev: "+(i+1)+" "+(prev[i]+1));
+
 			if(prev[i]!=-1) {
 				for(int j=0; j<nodes.get(i).getAdjacents(); j++) {
 					if(nodes.get(i).getNeiborgIndex(j)==prev[i]) {

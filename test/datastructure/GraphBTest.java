@@ -175,18 +175,6 @@ class GraphBTest {
 		
 		GraphB<Integer, String> minExpansion = graph.prim();
 		
-		for(int i=0; i<graph.getNodes().size(); i++) {
-			assertEquals(graph.getNodes().get(i).getKey() , minExpansion.getNodes().get(i).getKey(), "iteration i="+i);
-			
-			System.out.println("Node: "+(i+1)+"\n");
-			
-			for(int j=0; j<minExpansion.getNodes().get(i).getAdjacents();j++){
-				System.out.println("Neiborgh # "+(j+1)+":");
-				System.out.println(minExpansion.getNodes().get(i).getNeiborgIndex(j)+1);
-			}
-			System.out.println("\n");
-		}
-		
 		Node<Integer,String> current = minExpansion.getNodes().get(0);
 		assertEquals(2 , minExpansion.getNodes().get(current.getNeiborgIndex(0)).getKey());
 		
