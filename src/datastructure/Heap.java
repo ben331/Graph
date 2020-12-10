@@ -55,8 +55,8 @@ public class Heap<K extends Comparable<K>, V, P extends Comparable<P>> implement
 		Tuple<K,V,P> aux;
 		int indexFather =(int) Math.floor(i/2);
 		
-		P priorityFather = (P) array[indexFather].getKey();
-		P priorityCurrent = (P) array[i].getKey();
+		P priorityFather = (P) array[indexFather].getPriority();
+		P priorityCurrent = (P) array[i].getPriority();
 		
 		while(i>0 && priorityFather.compareTo(priorityCurrent)<0) {
 			aux = (Tuple<K, V, P>) array[indexFather];  //Exchange
@@ -65,8 +65,8 @@ public class Heap<K extends Comparable<K>, V, P extends Comparable<P>> implement
 			
 			i=indexFather;	//increase counter and variables
 			indexFather = (int) Math.floor(i/2);
-			priorityFather = (P) array[indexFather].getKey();
-			priorityCurrent = (P) array[i].getKey();
+			priorityFather = (P) array[indexFather].getPriority();
+			priorityCurrent = (P) array[i].getPriority();
 		}
 	}
 

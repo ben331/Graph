@@ -42,15 +42,22 @@ class GraphBTest {
 		graph.add(3, "Tres");
 		graph.add(4, "Cuatro");
 		graph.add(5, "Cinco");
+		
 		graph.getNodes().get(0).addAdjacent(1, 1);
+		graph.getNodes().get(0).addAdjacent(2, 3);
+		
 		graph.getNodes().get(1).addAdjacent(0, 1);
 		graph.getNodes().get(1).addAdjacent(2, 2);
-		graph.getNodes().get(2).addAdjacent(0, 2);
+		
+		graph.getNodes().get(2).addAdjacent(0, 3);
+		graph.getNodes().get(2).addAdjacent(1, 2);
 		graph.getNodes().get(2).addAdjacent(3, 1);
-		graph.getNodes().get(3).addAdjacent(2, 1);
 		graph.getNodes().get(2).addAdjacent(4, 1);
-		graph.getNodes().get(4).addAdjacent(0, 1);
+		
+		graph.getNodes().get(3).addAdjacent(2, 1);
 		graph.getNodes().get(3).addAdjacent(4, 3);
+		
+		graph.getNodes().get(4).addAdjacent(2, 1);
 		graph.getNodes().get(4).addAdjacent(3, 3);
 	}
 	
@@ -153,10 +160,6 @@ class GraphBTest {
 		
 		Double[] prevs = graph.dijkstra(4).get(1);
 		
-		for(int i=0; i<prevs.length;i++) {
-			System.out.println(prevs[i]);
-		}
-		
 		ArrayList<Node<Integer, String>> route = graph.buildRoute(prevs, 5);
 		
 		assertEquals(3, route.size());
@@ -173,26 +176,34 @@ class GraphBTest {
 		GraphB<Integer, String> minExpansion = graph.prim();
 		
 		for(int i=0; i<graph.getNodes().size(); i++) {
-			assertEquals(graph.getNodes().get(i).getKey() , minExpansion.getNodes().get(i).getKey(), "line"+i);
+			assertEquals(graph.getNodes().get(i).getKey() , minExpansion.getNodes().get(i).getKey(), "iteration i="+i);
+			
+			System.out.println("Node: "+(i+1)+"\n");
+			
+			for(int j=0; j<minExpansion.getNodes().get(i).getAdjacents();j++){
+				System.out.println("Neiborgh # "+(j+1)+":");
+				System.out.println(minExpansion.getNodes().get(i).getNeiborgIndex(j)+1);
+			}
+			System.out.println("\n");
 		}
 		
-		Node<Integer,String> current = graph.getNodes().get(0);
-		assertEquals(2 , current.getNeiborgIndex(0));
+		Node<Integer,String> current = minExpansion.getNodes().get(0);
+		assertEquals(2 , minExpansion.getNodes().get(current.getNeiborgIndex(0)).getKey());
 		
-		current = graph.getNodes().get(1);
-		assertEquals(1 , current.getNeiborgIndex(0));
-		assertEquals(3 , current.getNeiborgIndex(1));
+		current = minExpansion.getNodes().get(1);
+		assertEquals(1 , minExpansion.getNodes().get(current.getNeiborgIndex(0)).getKey());
+		assertEquals(3 , minExpansion.getNodes().get(current.getNeiborgIndex(1)).getKey());
 		
-		current = graph.getNodes().get(2);
-		assertEquals(2 , current.getNeiborgIndex(0));
-		assertEquals(4 , current.getNeiborgIndex(1));
-		assertEquals(5 , current.getNeiborgIndex(2));
+		current = minExpansion.getNodes().get(2);
+		assertEquals(2 , minExpansion.getNodes().get(current.getNeiborgIndex(0)).getKey());
+		assertEquals(4 , minExpansion.getNodes().get(current.getNeiborgIndex(1)).getKey());
+		assertEquals(5 , minExpansion.getNodes().get(current.getNeiborgIndex(2)).getKey());
 		
-		current = graph.getNodes().get(3);
-		assertEquals(3 , current.getNeiborgIndex(0));
+		current = minExpansion.getNodes().get(3);
+		assertEquals(3 , minExpansion.getNodes().get(current.getNeiborgIndex(0)).getKey());
 		
-		current = graph.getNodes().get(4);
-		assertEquals(3 , current.getNeiborgIndex(0));
+		current = minExpansion.getNodes().get(4);
+		assertEquals(3 , minExpansion.getNodes().get(current.getNeiborgIndex(0)).getKey());
 	}
 	
 	@Test

@@ -57,10 +57,6 @@ public class Node<K extends Comparable<K>,V> {
 		this.value = value;
 	}
 	
-	public void addAdjacent(int index) {
-		adjacency.add(new Edge(index, 1, key.toString()));		
-	}
-	
 	public void addAdjacent(int index, double weight) {
 		adjacency.add(new Edge(pos, index, weight, key.toString()));
 	}
