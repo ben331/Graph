@@ -26,9 +26,12 @@ class GraphBTest {
 		graph.add(2, "Dos");
 		graph.add(3, "Tres");
 		graph.getNodes().get(0).addAdjacent(1, 1);
+		graph.getNodes().get(0).addAdjacent(2, 3);
 		graph.getNodes().get(1).addAdjacent(0, 1);
-		graph.getNodes().get(1).addAdjacent(2, 3);
-		graph.getNodes().get(2).addAdjacent(0, 2);
+		graph.getNodes().get(1).addAdjacent(2, 2);
+		graph.getNodes().get(2).addAdjacent(0, 3);
+		graph.getNodes().get(2).addAdjacent(1, 2);
+		
 	}
 	
 	void setup3() {
@@ -104,20 +107,22 @@ class GraphBTest {
 	
 	@Test
 	void testRemoveEdge() {
+		
 		setup2();
 		graph.removeEdge(2, 3);
 		
 		assertEquals(3, graph.getNodes().size());
 		
 		//Nodes
-		assertEquals(3, graph.getNodes().size());
 		assertEquals(1, graph.getNodes().get(0).getKey());
 		assertEquals(2, graph.getNodes().get(1).getKey());
+		assertEquals(3, graph.getNodes().get(2).getKey());
 		
 		//Adayacents
 		assertEquals(2, graph.getNodes().get(graph.getNodes().get(0).getNeiborgIndex(0)).getKey());
 		assertEquals(3, graph.getNodes().get(graph.getNodes().get(0).getNeiborgIndex(1)).getKey());
 		assertEquals(1, graph.getNodes().get(graph.getNodes().get(2).getNeiborgIndex(0)).getKey());
+		
 	}
 	
 	@Test
