@@ -223,4 +223,29 @@ class GraphBTest {
 		assertEquals(3 , current.getNeiborgIndex(0));
 	}
 	
+	@Test
+	void testFloydWarshall() {
+		
+		setup2();
+		
+		double[][] helperMatrix = graph.floydWarshall();
+		
+		assertEquals(3, graph.getNodes().size());
+
+		assertEquals(0, helperMatrix[0][0]);
+		assertEquals(0, helperMatrix[1][1]);
+		assertEquals(0, helperMatrix[2][2]);
+		
+		assertEquals(1, helperMatrix[0][1]);
+		assertEquals(1, helperMatrix[1][0]);
+		
+		assertEquals(3, helperMatrix[0][2]);
+		assertEquals(3, helperMatrix[2][0]);
+		
+		assertEquals(2, helperMatrix[1][2]);
+		assertEquals(2, helperMatrix[2][1]);
+		
+		
+	}
+	
 }
