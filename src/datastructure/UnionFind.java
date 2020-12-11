@@ -20,10 +20,12 @@ public class UnionFind<K extends Comparable<K>,V> implements IUnionFind<K,V>{
 	}
 	
 	public void union(Set<K,V> set1, Set<K,V> set2) {
-		
 		set1.getLastElement().setNextElement(set2.getFirstElement());
 		set2.getRepresentative().setRepresentative(set1.getRepresentative());
+		set2.setRepresentative(set1.getRepresentative());
 		sets.remove(set2);
+		
+		
 	}
 	
 	public Set<K,V> find(K key) {
@@ -34,6 +36,7 @@ public class UnionFind<K extends Comparable<K>,V> implements IUnionFind<K,V>{
 				if(current.getKey().compareTo(key)==0) {
 					set = sets.get(i);
 				}
+				current = current.getNextElement();
 			}
 		}
 		return set;

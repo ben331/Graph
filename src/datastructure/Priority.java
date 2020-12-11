@@ -23,9 +23,9 @@ public class Priority implements Comparable<Priority>{
 			return -1;
 		}else {
 			if(pos<p.pos) {
-				return 1;
-			}else{
 				return -1;
+			}else{
+				return 1;
 			}
 		}
 	}

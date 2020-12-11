@@ -46,6 +46,10 @@ public class GraphB<K extends Comparable<K>,V> implements IGraph<K,V>{
 		return size==0;
 	}
 	
+	public int getSize() {
+		return size;
+	}
+	
 	//Analyzers
 	
 	@Override
@@ -321,17 +325,24 @@ public class GraphB<K extends Comparable<K>,V> implements IGraph<K,V>{
 	
 	public GraphB<K,V> kruskal(){
 		//Result GraphB
-		GraphB<K,V> graph = new GraphB<>(this.type);
+		GraphB<K,V> expansion = new GraphB<>(this.type);
+		
+		//Copy nodes
+		for(int i=0; i<this.nodes.size(); i++) {
+			expansion.add(nodes.get(i).getKey(), nodes.get(i).getValue());
+		}
 		
 		//PriorityQueue of edges
 		int amountEdges=0;
 		for(Node<K,V> node: nodes) {
 			amountEdges+=node.getAdjacents();
 		}
+				
 		Heap<K,Edge, Priority> edges = new Heap<>(amountEdges);
+		
 		for(Node<K,V> node: nodes) {
 			for(Edge edge: node.getEdges()) {
-				Priority priority = new Priority(edge.getWeight());
+				Priority priority = new Priority(edge.getWeight(), edge.getOrigin());
 				edges.insert(null, edge, priority);
 			}
 		}
@@ -343,38 +354,23 @@ public class GraphB<K extends Comparable<K>,V> implements IGraph<K,V>{
 		}
 		
 		//Kruskal
-		boolean[] wasAdded = new boolean[size];
-		int[] newPos = new int[size];
 		while(!edges.isEmpty()) {
 			Edge current = edges.extractMax();
 			Set<Integer,Node<K,V>> set1 = componentsGraph.find(current.getOrigin());
 			Set<Integer,Node<K,V>> set2 = componentsGraph.find(current.getIndex());
-			if(set1!=set2) {
+			
+			if((set1!=null && set2!=null) && set1.compareTo(set2)!=0) {
 				componentsGraph.union(set1, set2);
 				
-				//Adding nodes to a new GraphB
-				Node<K,V> node = nodes.get(current.getOrigin());
-				if(!wasAdded[current.getOrigin()]) {
-					graph.add(node.getKey(), nodes.get(current.getOrigin()).getValue());
-					newPos[current.getOrigin()] = graph.size -1;
-					wasAdded[current.getOrigin()]=true;
-				}
+				expansion.getNodes().get(current.getOrigin()).addAdjacent(current.getIndex(), current.getWeight());
 				
-				node = nodes.get(current.getIndex());
-				if(!wasAdded[current.getIndex()]) {
-					graph.add(node.getKey(), nodes.get(current.getOrigin()).getValue());
-					newPos[current.getOrigin()] = graph.size -1;
-					wasAdded[current.getIndex()] = true; 
-				}
-				
-				graph.nodes.get(newPos[current.getOrigin()]).addAdjacent(newPos[current.getIndex()], current.getWeight());
-				if(this.type==GraphB.SIMPLE_GRAPH) {
-					graph.nodes.get(newPos[current.getIndex()]).addAdjacent(newPos[current.getOrigin()], current.getWeight());
+				if(type==GraphB.SIMPLE_GRAPH || type==GraphB.MULTIGRAPH) {
+					expansion.getNodes().get(current.getIndex()).addAdjacent(current.getOrigin(), current.getWeight());
 				}
 			}
 		}
 		
-		return graph;
+		return expansion;
 	}
 
 	@Override

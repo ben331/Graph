@@ -1,6 +1,6 @@
 package datastructure;
 
-public class Set<K extends Comparable<K>, V> {
+public class Set<K extends Comparable<K>, V> implements Comparable<Set<K,V>> {
 	
 	private Element<K,V> firstElement;
 	
@@ -10,7 +10,7 @@ public class Set<K extends Comparable<K>, V> {
 
 	public Set(K key, V value) {
 		Element<K,V> element = new Element<>(key, value, null);
-		representative = element;
+		representative = firstElement = lastElement = element;
 		element.setRepresentative(element);
 	}
 
@@ -34,6 +34,9 @@ public class Set<K extends Comparable<K>, V> {
 		this.representative = representative;
 	}
 	
-	
+	@Override
+	public int compareTo(Set<K,V> set2) {
+		return representative.getKey().compareTo(set2.getRepresentative().getKey());
+	}
 	
 }
